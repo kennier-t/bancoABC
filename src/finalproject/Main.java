@@ -30,11 +30,41 @@ public class Main {
                                 + "• Depósitos\n"
                                 + "• Retiros\n"
                                 + "• Cambio de divisas");
-                        char tipo = (JOptionPane.showInputDialog("Ingrese el tipo de trámite:\n"
-                                + "• P: Preferencial\n"
-                                + "• A: Un solo trámite\n"
-                                + "• B: Dos o más trámites").charAt(0));
-                        JOptionPane.showMessageDialog(null, c1.insertar(new Ticket(nombre, tramite, tipo, id)));
+
+                        //Cambio del submenu.
+                        boolean submenu = true;
+                        char tipo = ' ';
+                        while (submenu) {
+                            int tipoOption = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el tipo de tiquete:\n"
+                                    + "1. Preferencial\n"
+                                    + "2. Un solo trámite\n"
+                                    + "3. Dos o más trámites\n"
+                                    + "4. Volver al menú principal"));
+
+                            switch (tipoOption) {
+                                case 1 -> {
+                                    tipo = 'P';
+                                    submenu = false; //se sale
+                                }
+                                case 2 -> {
+                                    tipo = 'A';
+                                    submenu = false; 
+                                }
+                                case 3 -> {
+                                    tipo = 'B';
+                                    submenu = false; 
+                                }
+                                case 4 -> {
+                                    submenu = false; 
+                                }
+                                default ->
+                                    JOptionPane.showMessageDialog(null, "La opción no es válida.");
+                            }
+                        }
+
+                        if (tipo != ' ') { // Si se seleccionó un tipo de tiquete
+                            JOptionPane.showMessageDialog(null, c1.insertar(new Ticket(nombre, tramite, tipo, id)));
+                        }
                     }
                     case 2 ->
                         JOptionPane.showMessageDialog(null, c1.atenderPorPrioridad());
