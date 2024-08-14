@@ -5,6 +5,7 @@ import java.time.LocalTime;// este es para obtener la hora cuando se solicita
 import java.time.Duration;// este es para calcular la diferencia entre la creacion y la atencion
 import java.util.ArrayList; // esto porque vamos a hacer una lista de colas (las multitramite)
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public final class Cola {
 
@@ -158,20 +159,38 @@ public final class Cola {
         }
     }
 
-    public String atenderPorPrioridad() { //esta es la funcion que se llama en el main, atiende a la cabeza de la cola que este de siguiente
-        if (preferencial.cabeza != null) {
-            return atender(preferencial);
-        } else if (unTramite.cabeza != null) {
-            return atender(unTramite);
-        } else {
+public String atenderPorPrioridad() {
+    String menu = "Seleccione la caja para atender un tiquete:\n"
+                + "1. Caja Preferencial\n"
+                + "2. Caja de Trámites Rápidos\n"
+                + "3. Caja de Trámites Múltiples";
+
+    int opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
+
+    switch (opcion) {
+        case 1: // Atender en la caja preferencial
+            if (preferencial.cabeza != null) {
+                return atender(preferencial);
+            } else {
+                return "La cola preferencial está vacía.";
+            }
+        case 2: // Atender en la caja de trámites rápidos
+            if (unTramite.cabeza != null) {
+                return atender(unTramite);
+            } else {
+                return "La cola de trámites rápidos está vacía.";
+            }
+        case 3: // Atender en la caja de trámites múltiples
             for (ColaInfo cola : multiTramite) {
                 if (cola.cabeza != null) {
                     return atender(cola);
                 }
             }
-            return "Todas las colas están vacías.";
-        }
+            return "Todas las colas de trámites múltiples están vacías.";
+        default:
+            return "Opción no válida.";
     }
+}
 
     public String prodComplementarios(Ticket pTicket) { //esta es la parte de los grafos, de esta no estoy tan seguro si esta bien
         switch (pTicket.getTramite()) {
